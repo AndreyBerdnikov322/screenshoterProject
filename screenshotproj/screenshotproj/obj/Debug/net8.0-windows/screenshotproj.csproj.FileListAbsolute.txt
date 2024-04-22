@@ -4,7 +4,6 @@ C:\Users\andre\source\repos\screenshoterProject\screenshotproj\screenshotproj\ob
 C:\Users\andre\source\repos\screenshoterProject\screenshotproj\screenshotproj\obj\Debug\net8.0-windows\screenshotproj.AssemblyInfo.cs
 C:\Users\andre\source\repos\screenshoterProject\screenshotproj\screenshotproj\obj\Debug\net8.0-windows\screenshotproj.csproj.CoreCompileInputs.cache
 C:\Users\andre\source\repos\screenshoterProject\screenshotproj\screenshotproj\obj\Debug\net8.0-windows\screenshotproj.sourcelink.json
-C:\Users\andre\source\repos\screenshoterProject\screenshotproj\screenshotproj\obj\Debug\net8.0-windows\ScreenCaptureApp.MainForm.resources
 C:\Users\andre\source\repos\screenshoterProject\screenshotproj\screenshotproj\bin\Debug\net8.0-windows\screenshotproj.exe
 C:\Users\andre\source\repos\screenshoterProject\screenshotproj\screenshotproj\bin\Debug\net8.0-windows\screenshotproj.deps.json
 C:\Users\andre\source\repos\screenshoterProject\screenshotproj\screenshotproj\bin\Debug\net8.0-windows\screenshotproj.runtimeconfig.json
@@ -15,3 +14,4 @@ C:\Users\andre\source\repos\screenshoterProject\screenshotproj\screenshotproj\ob
 C:\Users\andre\source\repos\screenshoterProject\screenshotproj\screenshotproj\obj\Debug\net8.0-windows\screenshotproj.pdb
 C:\Users\andre\source\repos\screenshoterProject\screenshotproj\screenshotproj\obj\Debug\net8.0-windows\screenshotproj.genruntimeconfig.cache
 C:\Users\andre\source\repos\screenshoterProject\screenshotproj\screenshotproj\obj\Debug\net8.0-windows\ref\screenshotproj.dll
+C:\Users\andre\source\repos\screenshoterProject\screenshotproj\screenshotproj\obj\Debug\net8.0-windows\ScreenCaptureApp.Program.resources
