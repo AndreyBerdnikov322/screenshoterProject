@@ -30,8 +30,6 @@ namespace ScreenCaptureApp
         {
             this.Text = "ScreenMaster";
 
-            //this.Size = new Size(400, 350);
-
             string iconPath = Path.Combine(System.Windows.Forms.Application.StartupPath, "ScreenMaster.ico");
             if (File.Exists(iconPath))
             {
@@ -48,23 +46,11 @@ namespace ScreenCaptureApp
             // Кнопка для выбора exe файла
             System.Windows.Forms.Button selectExeButton = new System.Windows.Forms.Button();
             selectExeButton.Text = "Выбрать и запустить файл exe";
-
-            //selectExeButton.Size = new Size(250, 50);
-            //selectExeButton.Location = new Point(70, 30);
-
             selectExeButton.Size = new Size(265, 50);
             selectExeButton.Location = new Point(10, 10);
 
             selectExeButton.Click += SelectExeButton_Click;
             this.Controls.Add(selectExeButton);
-
-            //// Кнопка для создания скриншотов
-            //System.Windows.Forms.Button createScreenshotsButton = new System.Windows.Forms.Button();
-            //createScreenshotsButton.Text = "Создать скриншоты";
-            //createScreenshotsButton.Size = new Size(250, 50);
-            //createScreenshotsButton.Location = new Point(70, 90);
-            //createScreenshotsButton.Click += CreateScreenshotsButton_Click;
-            //this.Controls.Add(createScreenshotsButton);
 
             // Кнопка для создания скриншотов автоматически
             System.Windows.Forms.Button createAutomaticallyScreenshotsButton = new System.Windows.Forms.Button();
@@ -90,23 +76,10 @@ namespace ScreenCaptureApp
             // Кнопка для помощи
             System.Windows.Forms.Button helpButton = new System.Windows.Forms.Button();
             helpButton.Text = "Help";
-
-            //helpButton.Size = new Size(250, 50);
-            //helpButton.Location = new Point(70, 150);
-
             helpButton.Size = new Size(265, 50);
             helpButton.Location = new Point(10, 130);
-
             helpButton.Click += HelpButton_Click;
             this.Controls.Add(helpButton);
-
-            //// Кнопка для выхода
-            //System.Windows.Forms.Button exitButton = new System.Windows.Forms.Button();
-            //exitButton.Text = "Выход";
-            //exitButton.Size = new Size(250, 50);
-            //exitButton.Location = new Point(70, 210);
-            //exitButton.Click += ExitButton_Click;
-            //this.Controls.Add(exitButton);
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -124,7 +97,7 @@ namespace ScreenCaptureApp
                 }
                 else
                 {
-                    MessageBox.Show("Инструкция не найдена.");
+                    MessageBox.Show("Инструкция не найдена");
                     return true; // сообщаем, что команда была обработана
                 }
             }
@@ -201,7 +174,7 @@ namespace ScreenCaptureApp
                 }
             }
 
-            MessageBox.Show("Скриншоты успешно созданы и сохранены на рабочем столе в папке 'Screenshots'.");
+            MessageBox.Show("Скриншоты успешно созданы и сохранены на рабочем столе в папке 'Screenshots'");
         }
 
         private void HelpButton_Click(object sender, EventArgs e)
