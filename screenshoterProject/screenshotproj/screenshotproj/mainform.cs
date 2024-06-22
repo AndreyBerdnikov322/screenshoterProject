@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using FlaUI.Core;
 using FlaUI.Core.AutomationElements;
 using FlaUI.UIA3;
@@ -31,12 +32,14 @@ namespace ScreenCaptureApp
             this.Text = "ScreenMaster";
 
             string iconPath = Path.Combine(System.Windows.Forms.Application.StartupPath, "ScreenMaster.ico");
+
             if (File.Exists(iconPath))
             {
                 this.Icon = new Icon(iconPath);
             }
 
-            this.Size = new Size(300, 230);
+            //this.Size = new Size(300, 230);
+            this.Size = new Size(300, 300);
             this.StartPosition = FormStartPosition.CenterScreen;
 
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -45,7 +48,7 @@ namespace ScreenCaptureApp
 
             // Кнопка для выбора exe файла
             System.Windows.Forms.Button selectExeButton = new System.Windows.Forms.Button();
-            selectExeButton.Text = "Выбрать и запустить файл exe";
+            selectExeButton.Text = "Выбрать и запустить файл";
             selectExeButton.Size = new Size(265, 50);
             selectExeButton.Location = new Point(10, 10);
 
@@ -73,11 +76,19 @@ namespace ScreenCaptureApp
             createPersonallyScreenshotsButton.Click += CreatePersonallyScreenshotsButton_Click;
             this.Controls.Add(createPersonallyScreenshotsButton);
 
+            // Кнопка для формирования руководства
+            System.Windows.Forms.Button generateGuideButton = new System.Windows.Forms.Button();
+            generateGuideButton.Text = "Формирование руководства";
+            generateGuideButton.Size = new Size(265, 50);
+            generateGuideButton.Location = new Point(10, 130);
+            generateGuideButton.Click += GenerateGuideButton_Click;
+            this.Controls.Add(generateGuideButton);
+
             // Кнопка для помощи
             System.Windows.Forms.Button helpButton = new System.Windows.Forms.Button();
             helpButton.Text = "Help";
             helpButton.Size = new Size(265, 50);
-            helpButton.Location = new Point(10, 130);
+            helpButton.Location = new Point(10, 190);
             helpButton.Click += HelpButton_Click;
             this.Controls.Add(helpButton);
         }
@@ -88,17 +99,17 @@ namespace ScreenCaptureApp
             {
                 string helpFilePath = Path.Combine(System.Windows.Forms.Application.StartupPath, "spravka.chm");
 
-                // Проверяем существует ли файл с инструкцией
+                // Проверка, существует ли файл с инструкцией
                 if (File.Exists(helpFilePath))
                 {
-                    // Открываем файл справки с помощью Notepad
+                    // Открытие файла справки с помощью Notepad
                     Process.Start("hh.exe", helpFilePath);
-                    return true; // сообщаем, что команда была обработана
+                    return true; // сообщение, что команда была обработана
                 }
                 else
                 {
                     MessageBox.Show("Инструкция не найдена");
-                    return true; // сообщаем, что команда была обработана
+                    return true; // сообщение, что команда была обработана
                 }
             }
             return base.ProcessCmdKey(ref msg, keyData);
@@ -114,15 +125,6 @@ namespace ScreenCaptureApp
             {
                 selectedExePath = exeFileDialog.FileName;
                 MessageBox.Show($"Выбран файл: {selectedExePath}");
-
-                // Запускаем выбранный exe файл
-                startedProcess = Process.Start(new ProcessStartInfo(selectedExePath)
-                {
-                    WindowStyle = ProcessWindowStyle.Normal
-                });
-
-                // Ждем, чтобы приложение открылось
-                Thread.Sleep(2000);
             }
         }
 
@@ -140,20 +142,32 @@ namespace ScreenCaptureApp
                 return;
             }
 
-            // Получаем главное окно приложения
+            //Запуск выбранного exe файл
+            Process startedProcess = Process.Start(new ProcessStartInfo(selectedExePath)
+            {
+                WindowStyle = ProcessWindowStyle.Normal
+            });
+
+
+            // Ожидание, чтобы приложение открылось, чтобы первые скриншоты не сделали снимки полупрозрачного окна
+            Thread.Sleep(2000);
+
+            // Получение главного окна приложения
             var app = FlaUI.Core.Application.Attach(startedProcess);
             var automation = new UIA3Automation();
             var mainWindow = app.GetMainWindow(automation);
 
-            // Делаем скриншоты видимых элементов
+            // Создание папки для скриншотов
             var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             var screenshotsFolderPath = Path.Combine(desktopPath, "Screenshots");
             Directory.CreateDirectory(screenshotsFolderPath);
 
+            // Создание скриншотов всех изначально видимых элементов
             TakeVisibleElementScreenshots(mainWindow, screenshotsFolderPath);
 
-            // Делаем скриншоты элементов меню
+            // Создание скриншотов
             var elements = mainWindow.FindAllDescendants();
+
             foreach (var element in elements)
             {
                 if (element.ControlType == FlaUI.Core.Definitions.ControlType.MenuItem)
@@ -163,6 +177,7 @@ namespace ScreenCaptureApp
                     Thread.Sleep(100);
 
                     var menuWindow = mainWindow.FindFirstDescendant(cf => cf.ByControlType(FlaUI.Core.Definitions.ControlType.Menu));
+
                     if (menuWindow != null)
                     {
                         TakeMenuScreenshots(menuWindow, screenshotsFolderPath);
@@ -175,25 +190,6 @@ namespace ScreenCaptureApp
             }
 
             MessageBox.Show("Скриншоты успешно созданы и сохранены на рабочем столе в папке 'Screenshots'");
-        }
-
-        private void HelpButton_Click(object sender, EventArgs e)
-        {
-            string helpFilePath = Path.Combine(System.Windows.Forms.Application.StartupPath, "helpfile.chm");
-
-            if (File.Exists(helpFilePath))
-            {
-                Process.Start("hh.exe", helpFilePath);
-            }
-            else
-            {
-                MessageBox.Show("Файл справки не найден");
-            }
-        }
-
-        private void ExitButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
 
         static void TakeVisibleElementScreenshots(AutomationElement element, string screenshotsFolderPath)
@@ -232,7 +228,7 @@ namespace ScreenCaptureApp
                     }
 
                     // Сохраняем скриншот на рабочем столе
-                    var fileName = $"screenshot_{el.Name}_{DateTime.Now:yyyyMMddHHmmss}.png";
+                    var fileName = $"скриншот_{el.Name}.png";
                     var filePath = Path.Combine(screenshotsFolderPath, fileName);
                     bitmap.Save(filePath, System.Drawing.Imaging.ImageFormat.Png);
                 }
@@ -242,10 +238,11 @@ namespace ScreenCaptureApp
         static void TakeMenuScreenshot(AutomationElement element, string screenshotsFolderPath, string prefix = "")
         {
             var window = element.AsWindow();
+
             if (window != null)
             {
                 var bitmap = window.Capture();
-                var fileName = $"{prefix}_screenshot.png";
+                var fileName = $"скриншот_{prefix}_{element.Name}.png";
                 var filePath = Path.Combine(screenshotsFolderPath, fileName);
 
                 bitmap.Save(filePath, System.Drawing.Imaging.ImageFormat.Png);
@@ -255,10 +252,11 @@ namespace ScreenCaptureApp
         static void TakeMenuScreenshots(AutomationElement menuWindow, string screenshotsFolderPath)
         {
             // Сначала делаем скриншот всего меню без выделений
-            TakeMenuScreenshot(menuWindow, screenshotsFolderPath, "Menu");
+            TakeMenuScreenshot(menuWindow, screenshotsFolderPath, "Меню");
 
             // Затем делаем скриншоты с выделением по одному элементу
             var childElements = menuWindow.FindAllDescendants();
+
             foreach (var childElement in childElements)
             {
                 if (childElement.ControlType == FlaUI.Core.Definitions.ControlType.MenuItem)
@@ -279,10 +277,55 @@ namespace ScreenCaptureApp
                     }
 
                     // Сохраняем скриншот с выделением текущего элемента
-                    var fileName = $"screenshot_Menu_{childElement.Name}_{DateTime.Now:yyyyMMddHHmmss}.png";
+                    var fileName = $"скриншот_Меню_{menuWindow.Name}_{childElement.Name}.png";
                     var filePath = Path.Combine(screenshotsFolderPath, fileName);
                     bitmap.Save(filePath, System.Drawing.Imaging.ImageFormat.Png);
                 }
+            }
+        }
+
+        private void GenerateGuideButton_Click(object sender, EventArgs e)
+        {
+            var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            var screenshotsFolderPath = Path.Combine(desktopPath, "Screenshots");
+            var guideFilePath = Path.Combine(screenshotsFolderPath, "Руководство пользователя.md");
+
+            if (!Directory.Exists(screenshotsFolderPath) || !Directory.EnumerateFiles(screenshotsFolderPath).Any())
+            {
+                MessageBox.Show("Скриншоты не найдены");
+                return;
+            }
+
+            using (StreamWriter writer = new StreamWriter(guideFilePath))
+            {
+                writer.WriteLine("# Руководство пользователя");
+                writer.WriteLine();
+                writer.WriteLine("## Описание");
+                writer.WriteLine("Это руководство пользователя для программы **ваш текст**");
+                writer.WriteLine();
+
+                foreach (var filePath in Directory.EnumerateFiles(screenshotsFolderPath, "*.png"))
+                {
+                    var fileName = Path.GetFileName(filePath);
+                    writer.WriteLine($"![{fileName}]({fileName})");
+                    writer.WriteLine();
+                }
+            }
+
+            MessageBox.Show($"Руководство пользователя создано");
+        }
+
+        private void HelpButton_Click(object sender, EventArgs e)
+        {
+            string helpFilePath = Path.Combine(System.Windows.Forms.Application.StartupPath, "helpfile.chm");
+
+            if (File.Exists(helpFilePath))
+            {
+                Process.Start("hh.exe", helpFilePath);
+            }
+            else
+            {
+                MessageBox.Show("Файл справки не найден");
             }
         }
 
