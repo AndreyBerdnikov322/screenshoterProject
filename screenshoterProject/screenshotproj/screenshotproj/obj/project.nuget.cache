@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wM9CJf1srgtY90tAghS38uzBafbvF3xebsMj3Ln9rNrbtQgj+C2Y3I2ULkXTvO5Co8dU+yTIWdJEq2xgRmxIEA==",
+  "dgSpecHash": "C/Fo7t3KAbY=",
   "success": true,
-  "projectFilePath": "C:\\Users\\julia\\source\\repos\\screenshoterProject\\screenshotproj\\screenshotproj\\screenshotproj.csproj",
+  "projectFilePath": "C:\\Users\\julia\\screenshoterProject\\screenshoterProject\\screenshotproj\\screenshotproj\\screenshotproj.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\julia\\.nuget\\packages\\flaui.core\\4.0.0\\flaui.core.4.0.0.nupkg.sha512",
     "C:\\Users\\julia\\.nuget\\packages\\flaui.uia3\\4.0.0\\flaui.uia3.4.0.0.nupkg.sha512",
