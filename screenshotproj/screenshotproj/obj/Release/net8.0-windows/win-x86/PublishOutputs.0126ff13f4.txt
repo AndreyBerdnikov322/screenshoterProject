@@ -1,0 +1,10 @@
+C:\Users\julia\source\repos\ScreenMaster\Установщик\screenshotproj.pdb
+C:\Users\julia\source\repos\ScreenMaster\Установщик\bin\Debug\net8.0-windows\personallyButton.png
+C:\Users\julia\source\repos\ScreenMaster\Установщик\bin\Debug\net8.0-windows\helpfile.chm
+C:\Users\julia\source\repos\ScreenMaster\Установщик\bin\Debug\net8.0-windows\spravka.chm
+C:\Users\julia\source\repos\ScreenMaster\Установщик\D3DCompiler_47_cor3.dll
+C:\Users\julia\source\repos\ScreenMaster\Установщик\PenImc_cor3.dll
+C:\Users\julia\source\repos\ScreenMaster\Установщик\PresentationNative_cor3.dll
+C:\Users\julia\source\repos\ScreenMaster\Установщик\vcruntime140_cor3.dll
+C:\Users\julia\source\repos\ScreenMaster\Установщик\wpfgfx_cor3.dll
+C:\Users\julia\source\repos\ScreenMaster\Установщик\screenshotproj.exe
